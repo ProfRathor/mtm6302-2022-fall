@@ -7,7 +7,7 @@ $list.innerHTML = `
 <li class="item">Buy milk</li>
 `
 
-// console.log($listItems);
+console.log($listItems)
 // Using event delegation to allow targetting the elements that do not exist yet
 $list.addEventListener('click', function (e) {
   const $item = e.target.closest('.item')

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    html,
+    body {
+        display: grid;
+        justify-content: center;
+        align-content: center;
+
+        height: 100%;
+    }
+
+    img {
+        max-width: 100%;
+        cursor: pointer;
+    }
+
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        display: grid;
+        justify-content: center;
+        align-content: center;
+
+        width: calc(100% - 50px);
+        height: calc(100% - 50px);
+        padding: 25px;
+
+        background-color: rgba(33, 33, 33, 0.9);
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .show {
+        opacity: 1;
+        visibility: visible;
+    }
+</style>
+
+<body>
+
+    <a id="link" href="https://facebook.com">Facebook</a>
+
+    <img src="http://eisenbm.edumedia.ca/codepen/images/cat-300.jpg" alt="A kitten playing with a flower"
+        data-large="http://eisenbm.edumedia.ca/codepen/images/cat-2400.jpg"
+        data-source="Image by Dimitri Houtteman from Pixabay">
+
+
+
+    <div class="modal"></div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
