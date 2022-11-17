@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="user-info">
+        First Name : <input type="text" name="first_name"><br>
+        Last Name : <input type="text" name="last_name"><br>
+        Fav Color: <select name="fav_color">
+            <option value="">Select Color</option>
+            <option value="Red">Red</option>
+            <option value="Green">Green</option>
+            <option value="Blue">Blue</option>
+            <option value="Orange">Orange</option>
+        </select><br>
+        <button>Save</button>
+    </form>
+    <br>
+    <div>
+        Hello, "<span id="user-name"></span>" your favourite color is "<span id="user-color"></span>".
+    </div>
+    <button id="clear-storage">Clear Storage</button>
+    <script src="script.js"></script>
+</body>
+
+</html>

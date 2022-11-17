@@ -9,8 +9,8 @@ const imgArr = []
 //imagesObject that has information about various images
 const imagesObject = [
   {
-    src: 'http://eisenbm.edumedia.ca/codepen/images/cat-300.jpg',
-    large: 'http://eisenbm.edumedia.ca/codepen/images/cat-2400.jpg',
+    src: 'images/cat-300.jpg',
+    large: 'images/cat-2400.jpg',
     caption: 'Image by Dimitri Houtteman from Pixabay',
     alt: 'Kitten image',
   },
@@ -24,9 +24,14 @@ const imagesObject = [
   },
 ]
 
+// imagesObject[0]
+// imagesObject[1]
+// ...
+// imagesObject[11]
+
 // for-of loop to create the img tags from imagesObject and push it to the imgArr, using required attributes such as src, alt and data-*
 for (const imageData of imagesObject) {
-  imgArr.push(`<img class="thumb" src="${imageData.src}" alt="${imageData.alt}" data-large="${imageData.large}" data-caption="${imageData.caption}">
+  imgArr.push(`<img class="thumb" src="${imagesObject.src}" alt="${imageData.alt}" data-large="${imageData.large}" data-caption="${imageData.caption}">
   `)
 }
 
