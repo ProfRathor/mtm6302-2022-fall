@@ -3,8 +3,6 @@
  ***************************/
 let currentUserId = 1;
 let userFav = [];
-let userFavHTMLArr = [];
-
 
 /****************************
  * DOM Variables
@@ -44,21 +42,10 @@ function createUserRowHTML(userData, addButton = false) {
 }
 
 /**
- * Add user info HTML
- * @param HTML userInfoHTML 
- * HTML that would be needed to build the innerHTML property of the div with id userInfo
- */
-function addUserInfoHTML(userInfoHTML) {
-    $userInfo.innerHTML = userInfoHTML;
-}
-
-/**
  * This function builds html for Favourites
  */
 function addFavListHTML() {
-    $favList.innerHTML = userFavHTMLArr.join("<hr>");
 }
-
 
 function getStorageItemInfo() {
     if (localStorage.getItem('userFavourites')) {
@@ -73,20 +60,15 @@ function updateStorageItem() {
     localStorage.setItem('userFavourites', string)
 }
 
-function createFavList() {
-    userFavHTMLArr = [];
-    for (let i = 0; i < userFav.length; i++) {
-        fetchData(userFav[i], false, 'fav-list');
-    }
-}
-
 /****************************
  * Async Functions
  ***************************/
 
 //Add async Keyword to create an asynchronous function 
 //This would treat fetch as a Promise
-async function fetchData(userId, addButton = false, destinationDiv = 'user-info') {
+//Add async Keyword to create an asynchronous function 
+//This would treat fetch as a Promise
+async function fetchDataReturn(userId, addButton) {
     // call fetch using await keyword 
     const response = await fetch('https://jsonplaceholder.typicode.com/users/' + userId)
     // call response.json using await keyword 
@@ -94,18 +76,30 @@ async function fetchData(userId, addButton = false, destinationDiv = 'user-info'
     // This is a fail safe 
     // check if the reponse actually has an id 
     if (json.id && json.id > 0) {
-        userRowHTML = createUserRowHTML(json, addButton)
-        if (destinationDiv === 'user-info') {
-            addUserInfoHTML(userRowHTML);
-        }
-
-        if (destinationDiv === 'fav-list') {
-            userFavHTMLArr.push(userRowHTML);
-            addFavListHTML();
-        }
+        return createUserRowHTML(json, addButton)
     }
-    console.log(`No user found with id "${userId}"`)
+    return "";
 }
+
+async function createFavListHTML() {
+    const userFavHTMLArr = [];
+    for (let i = 0; i < userFav.length; i++) {
+        const returnHtml = await fetchDataReturn(userFav[i], false)
+        userFavHTMLArr.push(returnHtml)
+    }
+    $favList.innerHTML = userFavHTMLArr.join("<hr>");
+}
+
+/**
+ * Add user info HTML
+ * @param Integer userId 
+ *  Id of the user to fetch the information
+ */
+async function addUserInfoHTML(userId) {
+    const returnHtml = await fetchDataReturn(userId, true)
+    $userInfo.innerHTML = returnHtml;
+}
+
 
 /****************************
  * Event Listeners
@@ -115,21 +109,24 @@ $userInfo.addEventListener('click', function (e) {
     // Event Delegation for add-to-fav button
     if (e.target.classList.contains('add-to-fav')) {
         const targetUserId = e.target.dataset.userId;
-        userFav.push(targetUserId);
-        updateStorageItem();
-        createFavList();
+        // check if this user does not exist first
+        if (!userFav.includes(targetUserId)) {
+            userFav.push(targetUserId);
+            updateStorageItem();
+            createFavListHTML();
+        }
     }
 });
 
 $nextUser.addEventListener('click', function (e) {
     currentUserId++;
-    fetchData(currentUserId, true);
+    addUserInfoHTML(currentUserId);
 });
 
 $clearFav.addEventListener('click', function (e) {
     localStorage.setItem('userFavourites', '')
-    userFavHTMLArr = [];
-    addFavListHTML();
+    userFav = [];
+    createFavListHTML();
 });
 
 
@@ -138,5 +135,5 @@ $clearFav.addEventListener('click', function (e) {
  * Global Calls 
  *************************/
 userFav = getStorageItemInfo();
-createFavList();
-$userInfo.innerHTML = createUserRowHTML(fetchData(1, true));
+createFavListHTML();
+addUserInfoHTML(1);
